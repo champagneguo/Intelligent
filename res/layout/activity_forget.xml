@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/phone_backgroud"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="  找回密码"
+            android:textColor="#ffffff"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:text="用户名"
+            android:textColor="#6e6e6e"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="#d0d0d0"
+            android:contentDescription="@string/app_name" />
+
+        <EditText
+            android:id="@+id/forget_username"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:hint="请输入用户名"
+            android:padding="3dp"
+            android:singleLine="true"
+            android:textColor="#898989"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:text="邮箱地址"
+            android:textColor="#6e6e6e"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="#d0d0d0"
+            android:contentDescription="@string/app_name" />
+
+        <EditText
+            android:id="@+id/forget_email"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:hint="请输入邮箱地址"
+            android:inputType="textEmailAddress"
+            android:padding="3dp"
+            android:singleLine="true"
+            android:textColor="#898989"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="50dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:text="手机号码"
+            android:textColor="#6e6e6e"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="#d0d0d0"
+            android:contentDescription="@string/app_name" />
+
+        <EditText
+            android:id="@+id/forget_phone"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:hint="请输入电话号码"
+            android:inputType="phone"
+            android:padding="3dp"
+            android:singleLine="true"
+            android:textColor="#898989"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/forget_button"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:background="@drawable/register_button_bg"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="找回"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/forget_cancle"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:background="@drawable/register_button_bg"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="取消"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+</LinearLayout>

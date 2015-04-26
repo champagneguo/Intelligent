@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ImageView
+        android:id="@+id/labelsearch_imageview"
+        android:layout_width="250sp"
+        android:layout_height="230sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/circle" />
+
+    <Button
+        android:id="@+id/labelsearch_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/labelsearch_start"
+        android:layout_alignBottom="@+id/labelsearch_start"
+        android:layout_alignRight="@+id/labelsearch_imageview"
+        android:background="@drawable/apliedbutton"
+        android:text=" 数据加载 "
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/labelsearch_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/labelsearch_imageview"
+        android:layout_below="@+id/labelsearch_search"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/apliedbutton"
+        android:text=" 数据查看 "
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/labelsearch_inspection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/labelsearch_start"
+        android:layout_below="@+id/labelsearch_start"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/apliedbutton"
+        android:text=" 巡检管理 "
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/labelsearch_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/labelsearch_inspection"
+        android:layout_alignBottom="@+id/labelsearch_inspection"
+        android:layout_alignLeft="@+id/labelsearch_load"
+        android:background="@drawable/apliedbutton"
+        android:text=" 故障申报 "
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/labelsearch_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/labelsearch_imageview"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/apliedbutton"
+        android:text=" 标牌识别 "
+        android:textStyle="bold" />
+
+</RelativeLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <Button
+        android:id="@+id/piperecognition_detect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/piperecognition_imageView"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/apliedbutton"
+        android:text="  地标识别  " />
+
+    <ImageView
+        android:id="@+id/piperecognition_imageView"
+        android:layout_width="250sp"
+        android:layout_height="250sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/search" />
+
+    <Button
+        android:id="@+id/piperecognition_read"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/piperecognition_imageView"
+        android:layout_below="@+id/piperecognition_detect"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/apliedbutton"
+        android:text="  数据查看  "
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/piperecognition_inspection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/piperecognition_read"
+        android:layout_below="@+id/piperecognition_read"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/apliedbutton"
+        android:text="  巡检管理  "
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/piperecognition_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/piperecognition_inspection"
+        android:layout_alignRight="@+id/piperecognition_imageView"
+        android:background="@drawable/apliedbutton"
+        android:text="  数据加载  "
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/piperecognition_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/piperecognition_inspection"
+        android:layout_alignBottom="@+id/piperecognition_inspection"
+        android:layout_alignLeft="@+id/piperecognition_load"
+        android:background="@drawable/apliedbutton"
+        android:text="  故障申报  "
+        android:textStyle="bold" />
+
+</RelativeLayout>
