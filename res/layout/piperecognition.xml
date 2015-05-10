@@ -5,12 +5,13 @@
 
     <Button
         android:id="@+id/piperecognition_detect"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/piperecognition_imageView"
         android:layout_centerHorizontal="true"
         android:background="@drawable/apliedbutton"
-        android:text="  地标识别  " />
+        android:gravity="center"
+        android:text="地标识别 ：开始 " />
 
     <ImageView
         android:id="@+id/piperecognition_imageView"

@@ -1,34 +1,65 @@
 package com.intelligent.search;
 
-import com.example.nfc.util.Consts;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import com.example.nfc.util.Tools;
+import com.example.uartdemo.SerialPort;
 import com.intelligent.load.DataCheckActivity;
 import com.intelligent.load.DataLoadActivity;
 import com.intelligent.service.NFCService;
-import com.intelligent.util.IDentity;
 import com.intelligent.util.Utils;
 import com.intenlligent.R;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 
 public class PipeRecognition extends Activity {
+
 	private Button detect, read, load, inspection, report;
 	private ImageView image;
 	private boolean flag = false;
 	private AnimationDrawable anim;
 	private String TAG = "PipeRecognition";
-	private MyBroadcast mReceiver; // 广播接受者用于接收服务返回的数据
 	private String Uid = null;
 	private int cmdCode = 0;
+	private SerialPort mSerialPort;
+	private InputStream is;
+	private OutputStream os;
+	private int port = 13;
+	private int buad = 9600;
+	private RecvThread recvThread;
+	private boolean isHexRecv = true;
+	private boolean isOpen = false;
+
+	private Handler mHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			if (msg.what == 0x01) {
+				Utils.playMedia(PipeRecognition.this);
+				flag = true;
+				setButtonClickable(flag);
+			}
+
+		};
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +67,13 @@ public class PipeRecognition extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.piperecognition);
 		Log.e(TAG, "onCreate");
+
+		initView();
+
+	}
+
+	public void initView() {
+
 		detect = (Button) findViewById(R.id.piperecognition_detect);
 		read = (Button) findViewById(R.id.piperecognition_read);
 		load = (Button) findViewById(R.id.piperecognition_load);
@@ -54,12 +92,6 @@ public class PipeRecognition extends Activity {
 		inspection.setOnClickListener(new MyClick());
 		report.setOnClickListener(new MyClick());
 
-		// 注册广播接收者
-		mReceiver = new MyBroadcast();
-		IntentFilter filter = new IntentFilter();
-		filter.addAction("com.intelligent.search.PipeRecognition");
-		registerReceiver(mReceiver, filter);
-
 	}
 
 	public class MyClick implements OnClickListener {
@@ -69,68 +101,63 @@ public class PipeRecognition extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.piperecognition_detect:
-				Log.e(TAG, "piperecognition_detect");
-				cmdCode = Consts.Init_14443a;
-				cmdIntent.putExtra("cmd", cmdCode);
-				Log.e(TAG, "7");
-				startService(cmdIntent);
-				anim.start();
-				Log.e(TAG, "send read cmd==" + cmdCode);
+
+				if (!isOpen) {
+
+					open();
+					anim.start();
+					detect.setText("地标识别 ：结束");
+
+				} else {
+					anim.stop();
+					close();
+					detect.setText("地标识别 ：开始");
+
+				}
+
 				break;
 			case R.id.piperecognition_read:
 				Log.e(TAG, "piperecognition_read");
 				anim.stop();
-				cmdCode = 0;
-				cmdIntent.putExtra("cmd", cmdCode);
-				startService(cmdIntent);
+
 				Intent intent = new Intent(PipeRecognition.this,
 						DataCheckActivity.class);
-				intent.putExtra("UID", Uid);
-				Log.e(TAG, "R.id.piperecognition_read==" + Uid);
+				intent.putExtra("UID",
+						Uid.subSequence(Uid.length() - 10, Uid.length()));
 				startActivity(intent);
-				flag = false;
 				setButtonClickable(flag);
 				break;
 			case R.id.piperecognition_load:
 				Log.e(TAG, "piperecognition_load");
 				anim.stop();
-				cmdCode = 0;
-				cmdIntent.putExtra("cmd", cmdCode);
-				startService(cmdIntent);
+
 				Intent intent1 = new Intent(PipeRecognition.this,
 						DataLoadActivity.class);
-				intent1.putExtra("UID", Uid);
-				Log.e(TAG, "R.id.piperecognition_load==" + Uid);
+				intent1.putExtra("UID",
+						Uid.subSequence(Uid.length() - 10, Uid.length()));
 				startActivity(intent1);
-				flag = false;
 				setButtonClickable(flag);
 				break;
 
 			case R.id.piperecognition_inspection:
 				Log.e(TAG, "piperecognition_inspection");
 				anim.stop();
-				cmdCode = 0;
-				cmdIntent.putExtra("cmd", cmdCode);
-				startService(cmdIntent);
 				Intent intent2 = new Intent(PipeRecognition.this,
 						Inspection.class);
-				intent2.putExtra("UID", Uid);
-				Log.e(TAG, "R.id.piperecognition_inspection==" + Uid);
+				intent2.putExtra("UID",
+						Uid.subSequence(Uid.length() - 10, Uid.length()));
 				startActivity(intent2);
-				flag = false;
 				setButtonClickable(flag);
 				break;
 			case R.id.piperecognition_report:
 				Log.e(TAG, "piperecognition_report");
 				anim.stop();
-				cmdCode = 0;
-				cmdIntent.putExtra("cmd", cmdCode);
-				startService(cmdIntent);
+
 				Intent intent3 = new Intent(PipeRecognition.this, Report.class);
-				intent3.putExtra("UID", Uid);
-				Log.e(TAG, "R.id.piperecognition_report==" + Uid);
+				intent3.putExtra("UID",
+						Uid.subSequence(Uid.length() - 10, Uid.length()));
+
 				startActivity(intent3);
-				flag = false;
 				setButtonClickable(flag);
 				break;
 			default:
@@ -143,6 +170,8 @@ public class PipeRecognition extends Activity {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		detect.setText("地标识别 ：开始");
+		flag = false;
 		setButtonClickable(flag);
 	}
 
@@ -157,57 +186,137 @@ public class PipeRecognition extends Activity {
 			inspection.setTextColor(getResources().getColor(R.color.back));
 			report.setTextColor(getResources().getColor(R.color.back));
 		} else {
-			read.setTextColor(getResources().getColor(R.color.green));
-			load.setTextColor(getResources().getColor(R.color.green));
-			inspection.setTextColor(getResources().getColor(R.color.green));
-			report.setTextColor(getResources().getColor(R.color.green));
+			read.setTextColor(getResources().getColor(R.color.Blue));
+			load.setTextColor(getResources().getColor(R.color.Blue));
+			inspection.setTextColor(getResources().getColor(R.color.Blue));
+			report.setTextColor(getResources().getColor(R.color.Blue));
 
 		}
 
 	}
 
-	// 广播接收者；
-	public class MyBroadcast extends BroadcastReceiver {
-		String[] idInfo;
-		IDentity identity;
-
+	/**
+	 * recv thread receive serialport data
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	private class RecvThread extends Thread {
 		@Override
-		public void onReceive(Context context, Intent intent) {
-
-			// 服务返回的数据
-			String receivedata = intent.getStringExtra("result");
-
-			if (receivedata != null) {
-				Log.e(TAG, "onReceive  :" + receivedata);
-				// 接收返回的ID
-				if (cmdCode == Consts.Init_14443a) {
-					Utils.playMedia(PipeRecognition.this);
-					idInfo = receivedata.split(" ");
-					identity = new IDentity();
-					identity.setIdtype(idInfo[0]);
-					identity.setUid(idInfo[1]);
-					Log.e(TAG, "MyBroadcast UID==" + Uid);
-					Uid = identity.getUid();
-					if (Uid != null) {
-						flag = true;
-						setButtonClickable(flag);
+		public void run() {
+			super.run();
+			try {
+				while (!isInterrupted()) {
+					int size = 0;
+					byte[] buffer = new byte[1024];
+					if (is == null) {
+						return;
 					}
-				}
-			}
+					size = is.read(buffer);
 
+					if (size > 0) {
+
+						onDataReceived(buffer, size);
+					}
+					Thread.sleep(10);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	/**
+	 * add recv data on UI
+	 * 
+	 * @param buffer
+	 * @param size
+	 */
+	private void onDataReceived(final byte[] buffer, final int size) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				if (size > 2) {
+
+					if (isHexRecv) {
+						Message msg = mHandler.obtainMessage(0x01);
+						Uid = Tools.Bytes2HexString(buffer, size);
+						mHandler.sendMessage(msg);
+
+					}
+
+				}
+
+			}
+		});
+	}
+
+	/**
+	 * open serial port
+	 */
+	private void open() {
+		Log.e(TAG, "open-----------------");
+		try {
+			mSerialPort = new SerialPort(port, buad, 0);
+			Log.e(TAG, "mSerialPort:----------" + mSerialPort.toString());
+		} catch (Exception e) {
+
+			Toast.makeText(this, "SerialPort init fail!!", 0).show();
+			return;
+		}
+		is = mSerialPort.getInputStream();
+		os = mSerialPort.getOutputStream();
+
+		mSerialPort.rfid_poweron();
+
+		recvThread = new RecvThread();
+		recvThread.start();
+		isOpen = true;
+		Toast.makeText(this, "SerialPort open success", Toast.LENGTH_SHORT)
+				.show();
+
+	}
+
+	/**
+	 * close serial port
+	 */
+	private void close() {
+		Log.e(TAG, "close------------>>>>");
+		if (recvThread != null) {
+			recvThread.interrupt();
+		}
+		if (mSerialPort != null) {
+
+			mSerialPort.rfid_poweroff();
+
+			try {
+				is.close();
+				os.close();
+			} catch (IOException e) {
+				// e.printStackTrace();
+			}
+			mSerialPort.close(port);
+			isOpen = false;
+		}
+	}
+
+	@Override
+	protected void onPause() {
+		// TODO Auto-generated method stub
+		super.onPause();
+		if (isOpen) {
+			this.close();
 		}
 
 	}
 
 	@Override
 	protected void onDestroy() {
-		Intent stopService = new Intent();
-		stopService.setAction("com.intelligent.service.NFCService");
-		stopService.putExtra("stopflag", true);
-		sendBroadcast(stopService); // 给服务发送广播,令服务停止
-		Log.e(TAG, "send stop");
-		// 卸载注册
-		unregisterReceiver(mReceiver);
+		if (isOpen) {
+			this.close();
+		}
 		super.onDestroy();
 	}
 
