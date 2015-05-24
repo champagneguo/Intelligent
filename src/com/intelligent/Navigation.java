@@ -8,14 +8,20 @@ import com.baidu.mapapi.BMapManager;
 import com.baidu.mapapi.MKGeneralListener;
 import com.baidu.mapapi.map.LocationData;
 import com.baidu.mapapi.map.MKEvent;
+import com.baidu.mapapi.map.MKMapTouchListener;
 import com.baidu.mapapi.map.MapController;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationOverlay;
 import com.baidu.mapapi.map.PopupClickListener;
 import com.baidu.mapapi.map.PopupOverlay;
 import com.baidu.platform.comapi.basestruct.GeoPoint;
+import com.intelligent.load.DataLoadActivity;
+import com.intelligent.search.LabelSearch;
 import com.intenlligent.R;
 import android.app.Activity;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -24,13 +30,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class Navigation extends Activity {
+
+	private static final String TAG = "Navigation";
+	private 
+
+	// 用于截获屏坐标
+	MKMapTouchListener mapTouchListener = null;
 	private BMapManager mBMapMan = null;
-	private MapView mMapView = null;	
+	private MapView mMapView = null;
 	public View popView;
 
 	private Toast mToast;
@@ -68,12 +81,13 @@ public class Navigation extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		// 使用地图sdk前需先初始化BMapManager，这个必须在setContentView()先初始化
 		mBMapMan = new BMapManager(this);
 
 		// 第一个参数是API key,
 		// 第二个参数是常用事件监听，用来处理通常的网络错误，授权验证错误等，你也可以不添加这个回调接口
-		mBMapMan.init("2YGam94b7kHFj4roUtfQzj1q", new MKGeneralListenerImpl());
+		mBMapMan.init("kBbsnvi1NqjHOM4CqPPWtYtg", new MKGeneralListenerImpl());
 		setContentView(R.layout.navigation);
 
 		// 点击按钮手动请求定位
@@ -129,14 +143,66 @@ public class Navigation extends Activity {
 		// 设置定位数据
 		myLocationOverlay.setData(mLocData);
 
-		
-
 		// 添加定位图层
 		mMapView.getOverlays().add(myLocationOverlay);
 		myLocationOverlay.enableCompass();
 
 		// 修改定位数据后刷新图层生效
 		mMapView.refresh();
+		mapTouchListener = new MKMapTouchListener() {
+
+			@Override
+			public void onMapLongClick(final GeoPoint point) {
+
+				// TODO Auto-generated method stub
+				Builder builder = new Builder(Navigation.this);
+				builder.setTitle("标签添加");
+				builder.setMessage("是否添加地图当前位置到系统？");
+				builder.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+							}
+						});
+				builder.setPositiveButton("确定",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								// TODO Auto-generated method stub
+								Intent intent = new Intent(Navigation.this,
+										LabelSearch.class);
+								Log.e(TAG,
+										"onClick:" + "Latitude:"
+												+ point.getLatitudeE6()
+												+ "Longitude:"
+												+ point.getLongitudeE6());
+								intent.putExtra("Latitude",
+										(point.getLatitudeE6() * 1.0) / 1e6);
+								intent.putExtra("Longitude",
+										(point.getLongitudeE6() * 1.0) / 1e6);
+								startActivity(intent);
+							}
+						});
+				builder.create().show();
+			}
+
+			@Override
+			public void onMapDoubleClick(GeoPoint arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void onMapClick(GeoPoint arg0) {
+				// TODO Auto-generated method stub
+
+			}
+		};
 
 	}
 
@@ -242,7 +308,7 @@ public class Navigation extends Activity {
 	private void showPopupOverlay(BDLocation location) {
 		TextView popText = ((TextView) viewCache
 				.findViewById(R.id.navigation_popup_tv));
-		popText.setText( location.getAddrStr() );
+		popText.setText(location.getAddrStr());
 		mPopupOverlay.showPopup(getBitmapFromView(popText),
 				new GeoPoint((int) (location.getLatitude() * 1e6),
 						(int) (location.getLongitude() * 1e6)), 10);
@@ -298,7 +364,7 @@ public class Navigation extends Activity {
 			mBMapMan.destroy();
 			mBMapMan = null;
 		}
-		
+
 		super.onDestroy();
 	}
 
