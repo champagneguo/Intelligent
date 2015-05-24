@@ -4,9 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import com.example.nfc.util.AS3911;
-import com.example.nfc.util.Consts;
-import com.example.nfc.util.Tools;
+
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,6 +12,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
+
+import com.example.nfc.util.AS3911;
+import com.example.nfc.util.Consts;
+import com.example.nfc.util.Tools;
 
 public class NFCService extends Service {
 	private AS3911 as3911;

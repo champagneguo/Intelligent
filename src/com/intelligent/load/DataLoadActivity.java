@@ -1,24 +1,10 @@
 package com.intelligent.load;
 
 import static android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import com.intelligent.greendao.DaoMaster;
-import com.intelligent.greendao.DaoSession;
-import com.intelligent.greendao.biaoqian;
-import com.intelligent.greendao.biaoqianDao;
-import com.intelligent.greendao.dianli;
-import com.intelligent.greendao.dianliDao;
-import com.intelligent.greendao.gdlx;
-import com.intelligent.greendao.gdlxDao;
-import com.intelligent.greendao.guandian;
-import com.intelligent.greendao.guandianDao;
-import com.intelligent.greendao.gxlb;
-import com.intelligent.greendao.gxlbDao;
-import com.intelligent.greendao.DaoMaster.DevOpenHelper;
-import com.intelligent.util.Global;
-import com.intenlligent.R;
-import de.greenrobot.dao.query.QueryBuilder;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
@@ -36,17 +22,27 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.intelligent.greendao.DaoMaster;
+import com.intelligent.greendao.DaoMaster.DevOpenHelper;
+import com.intelligent.greendao.DaoSession;
+import com.intelligent.greendao.biaoqian;
+import com.intelligent.greendao.biaoqianDao;
+import com.intelligent.greendao.dianli;
+import com.intelligent.greendao.dianliDao;
+import com.intelligent.greendao.gdlxDao;
+import com.intelligent.greendao.guandianDao;
+import com.intelligent.greendao.gxlbDao;
+import com.intelligent.util.Global;
+import com.intenlligent.R;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 public class DataLoadActivity extends Activity {
 
@@ -79,6 +75,8 @@ public class DataLoadActivity extends Activity {
 	private Location location;
 	private MyThread myThread;
 	private boolean Flag_Navigation = false;
+	private Double Latitude_Intent = -1d, Longitude_Intent = -1d;
+	private String from = null;
 	private Handler handler = new Handler() {
 		@SuppressLint("HandlerLeak")
 		public void handleMessage(Message msg) {
@@ -168,9 +166,18 @@ public class DataLoadActivity extends Activity {
 		load = (Button) findViewById(R.id.dataload_load);
 
 		Uid = getIntent().getStringExtra("UID");
+		Latitude_Intent = this.getIntent().getDoubleExtra("Latitude", -1d);
+		Longitude_Intent = this.getIntent().getDoubleExtra("Longitude", -1d);
+		from = this.getIntent().getStringExtra("from");
 		Log.e(TAG, "onCreate:" + Uid);
 		if (Uid != null) {
 			UID.setText(Uid);
+		}
+		if (Latitude_Intent != -1d) {
+			Latitude.setText(String.valueOf(Latitude_Intent));
+		}
+		if (Longitude_Intent != -1d) {
+			Longitude.setText(String.valueOf(Longitude_Intent));
 		}
 		// 设置时间格式；
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");

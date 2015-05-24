@@ -2,13 +2,7 @@ package com.intelligent.search;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.intelligent.greendao.DaoMaster;
-import com.intelligent.greendao.DaoSession;
-import com.intelligent.greendao.xuncha;
-import com.intelligent.greendao.xunchaDao;
-import com.intelligent.greendao.DaoMaster.DevOpenHelper;
-import com.intenlligent.R;
-import de.greenrobot.dao.query.QueryBuilder;
+
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,6 +13,15 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.intelligent.greendao.DaoMaster;
+import com.intelligent.greendao.DaoMaster.DevOpenHelper;
+import com.intelligent.greendao.DaoSession;
+import com.intelligent.greendao.xuncha;
+import com.intelligent.greendao.xunchaDao;
+import com.intenlligent.R;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 public class InspectionRecord extends Activity {
 

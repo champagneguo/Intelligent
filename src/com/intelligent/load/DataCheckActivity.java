@@ -1,12 +1,5 @@
 package com.intelligent.load;
 
-import com.intelligent.greendao.DaoMaster;
-import com.intelligent.greendao.DaoSession;
-import com.intelligent.greendao.dianli;
-import com.intelligent.greendao.dianliDao;
-import com.intelligent.greendao.DaoMaster.DevOpenHelper;
-import com.intenlligent.R;
-import de.greenrobot.dao.query.QueryBuilder;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
@@ -18,6 +11,15 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.intelligent.greendao.DaoMaster;
+import com.intelligent.greendao.DaoMaster.DevOpenHelper;
+import com.intelligent.greendao.DaoSession;
+import com.intelligent.greendao.dianli;
+import com.intelligent.greendao.dianliDao;
+import com.intenlligent.R;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 public class DataCheckActivity extends Activity {
 

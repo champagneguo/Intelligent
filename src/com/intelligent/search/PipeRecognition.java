@@ -3,17 +3,9 @@ package com.intelligent.search;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import com.example.nfc.util.Tools;
-import com.example.uartdemo.SerialPort;
-import com.intelligent.load.DataCheckActivity;
-import com.intelligent.load.DataLoadActivity;
-import com.intelligent.service.NFCService;
-import com.intelligent.util.Utils;
-import com.intenlligent.R;
+
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,16 +13,17 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import com.example.nfc.util.Tools;
+import com.example.uartdemo.SerialPort;
+import com.intelligent.load.DataCheckActivity;
+import com.intelligent.load.DataLoadActivity;
+import com.intelligent.service.NFCService;
+import com.intelligent.util.Utils;
+import com.intenlligent.R;
 
 public class PipeRecognition extends Activity {
 

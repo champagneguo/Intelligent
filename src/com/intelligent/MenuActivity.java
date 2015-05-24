@@ -1,16 +1,17 @@
 package com.intelligent;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
-import com.intenlligent.R;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
+import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TabHost.TabSpec;
-import android.widget.RadioGroup;
 import android.widget.Toast;
+
+import com.intenlligent.R;
 
 public class MenuActivity extends FragmentActivity {
 

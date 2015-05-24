@@ -1,11 +1,5 @@
 package com.intelligent;
 
-import com.intelligent.load.DataCollectActivity;
-import com.intelligent.search.InspectionRecord;
-import com.intelligent.search.LabelSearch;
-import com.intelligent.search.PipeRecognition;
-import com.intelligent.search.Report;
-import com.intenlligent.R;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +13,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+
+import com.intelligent.load.DataCollectActivity;
+import com.intelligent.search.InspectionRecord;
+import com.intelligent.search.LabelSearch;
+import com.intelligent.search.PipeRecognition;
+import com.intelligent.search.Report;
+import com.intenlligent.R;
 
 @SuppressWarnings("deprecation")
 public class Fragment01 extends Fragment {

@@ -1,14 +1,6 @@
 package com.intelligent.search;
 
-import com.intelligent.greendao.DaoMaster;
-import com.intelligent.greendao.DaoSession;
-import com.intelligent.greendao.xuncha;
-import com.intelligent.greendao.xunchaDao;
-import com.intelligent.greendao.DaoMaster.DevOpenHelper;
-import com.intenlligent.R;
-import de.greenrobot.dao.query.QueryBuilder;
 import android.app.Activity;
-import android.app.DownloadManager.Request;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +14,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.intelligent.greendao.DaoMaster;
+import com.intelligent.greendao.DaoMaster.DevOpenHelper;
+import com.intelligent.greendao.DaoSession;
+import com.intelligent.greendao.xuncha;
+import com.intelligent.greendao.xunchaDao;
+import com.intenlligent.R;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 public class InspectionRecordDetail extends Activity {
 

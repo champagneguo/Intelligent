@@ -1,8 +1,5 @@
 package com.intelligent.load;
 
-import com.intelligent.search.LabelSearch;
-import com.intelligent.search.PipeRecognition;
-import com.intenlligent.R;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +8,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
+
+import com.intelligent.search.LabelSearch;
+import com.intelligent.search.PipeRecognition;
+import com.intenlligent.R;
 
 public class DataCollectActivity extends Activity {
 

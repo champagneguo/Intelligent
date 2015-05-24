@@ -1,9 +1,5 @@
 package com.intelligent;
 
-import com.intelligent.db.MyDataBaseHelper;
-import com.intelligent.util.Global;
-import com.intelligent.util.User;
-import com.intenlligent.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -12,8 +8,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -21,6 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.intelligent.db.MyDataBaseHelper;
+import com.intelligent.util.Global;
+import com.intelligent.util.User;
+import com.intenlligent.R;
 
 public class Register extends Activity {
 

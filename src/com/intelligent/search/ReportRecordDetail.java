@@ -1,15 +1,5 @@
 package com.intelligent.search;
 
-import com.intelligent.greendao.DaoMaster;
-import com.intelligent.greendao.DaoSession;
-import com.intelligent.greendao.guzhangshenbao;
-import com.intelligent.greendao.guzhangshenbaoDao;
-import com.intelligent.greendao.xuncha;
-import com.intelligent.greendao.xunchaDao;
-import com.intelligent.greendao.DaoMaster.DevOpenHelper;
-import com.intenlligent.R;
-
-import de.greenrobot.dao.query.QueryBuilder;
 import android.app.Activity;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -18,12 +8,21 @@ import android.graphics.BitmapFactory.Options;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.intelligent.greendao.DaoMaster;
+import com.intelligent.greendao.DaoMaster.DevOpenHelper;
+import com.intelligent.greendao.DaoSession;
+import com.intelligent.greendao.guzhangshenbao;
+import com.intelligent.greendao.guzhangshenbaoDao;
+import com.intenlligent.R;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 public class ReportRecordDetail extends Activity {
 

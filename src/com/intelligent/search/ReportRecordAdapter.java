@@ -3,8 +3,6 @@ package com.intelligent.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.intenlligent.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
@@ -14,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.intenlligent.R;
 
 public class ReportRecordAdapter extends BaseAdapter implements
 		OnItemClickListener {

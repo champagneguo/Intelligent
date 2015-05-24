@@ -7,25 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import com.alibaba.fastjson.JSON;
-import com.intelligent.greendao.DaoMaster;
-import com.intelligent.greendao.DaoSession;
-import com.intelligent.greendao.DaoMaster.DevOpenHelper;
-import com.intelligent.greendao.biaoqian;
-import com.intelligent.greendao.biaoqianDao;
-import com.intelligent.greendao.dianli;
-import com.intelligent.greendao.dianliDao;
-import com.intelligent.greendao.guzhangshenbao;
-import com.intelligent.greendao.guzhangshenbaoDao;
-import com.intelligent.greendao.user;
-import com.intelligent.greendao.userDao;
-import com.intelligent.greendao.xuncha;
-import com.intelligent.greendao.xunchaDao;
-import com.intelligent.search.InspectionRecord;
-import com.intelligent.search.ReportRecord;
-import com.intelligent.util.AppInfo;
-import com.intenlligent.R;
-import de.greenrobot.dao.query.QueryBuilder;
+
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -44,6 +26,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
+import com.intelligent.greendao.DaoMaster;
+import com.intelligent.greendao.DaoMaster.DevOpenHelper;
+import com.intelligent.greendao.DaoSession;
+import com.intelligent.greendao.biaoqian;
+import com.intelligent.greendao.biaoqianDao;
+import com.intelligent.greendao.dianli;
+import com.intelligent.greendao.dianliDao;
+import com.intelligent.greendao.guzhangshenbao;
+import com.intelligent.greendao.guzhangshenbaoDao;
+import com.intelligent.greendao.user;
+import com.intelligent.greendao.userDao;
+import com.intelligent.greendao.xuncha;
+import com.intelligent.greendao.xunchaDao;
+import com.intelligent.search.InspectionRecord;
+import com.intelligent.search.ReportRecord;
+import com.intelligent.util.AppInfo;
+import com.intenlligent.R;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 public class Fragment04 extends Fragment {
 

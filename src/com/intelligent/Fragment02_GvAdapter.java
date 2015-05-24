@@ -1,7 +1,5 @@
 package com.intelligent;
 
-import com.intenlligent.R;
-
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.intenlligent.R;
 
 public class Fragment02_GvAdapter extends BaseAdapter {
 	private int[] imgItemRes;

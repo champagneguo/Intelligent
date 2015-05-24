@@ -2,10 +2,9 @@ package com.intelligent.search;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.intenlligent.R;
+
 import android.app.Activity;
 import android.content.Intent;
-import android.sax.StartElementListener;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.intenlligent.R;
 
 public class InspectionRecordAdapter extends BaseAdapter implements
 		OnItemClickListener {

@@ -2,22 +2,23 @@ package com.intelligent;
 
 import java.util.ArrayList;
 
-import com.intelligent.db.MyDataBaseHelper;
-import com.intenlligent.R;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.content.DialogInterface.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.intelligent.db.MyDataBaseHelper;
+import com.intenlligent.R;
 
 public class Forget extends Activity {
 

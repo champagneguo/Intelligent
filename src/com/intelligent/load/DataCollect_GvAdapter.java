@@ -1,7 +1,5 @@
 package com.intelligent.load;
 
-import com.intenlligent.R;
-
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.intenlligent.R;
 
 public class DataCollect_GvAdapter extends BaseAdapter {
 

@@ -1,6 +1,16 @@
 package com.intelligent;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
+
 import com.intelligent.greendao.DaoMaster;
+import com.intelligent.greendao.DaoMaster.DevOpenHelper;
 import com.intelligent.greendao.DaoSession;
 import com.intelligent.greendao.gdlx;
 import com.intelligent.greendao.gdlxDao;
@@ -14,16 +24,7 @@ import com.intelligent.greendao.jlx;
 import com.intelligent.greendao.jlxDao;
 import com.intelligent.greendao.shuxing;
 import com.intelligent.greendao.shuxingDao;
-import com.intelligent.greendao.DaoMaster.DevOpenHelper;
 import com.intenlligent.R;
-import android.app.Activity;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.Window;
-import android.view.WindowManager;
 
 public class MainActivity extends Activity {
 

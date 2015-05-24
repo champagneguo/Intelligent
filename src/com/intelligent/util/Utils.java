@@ -1,8 +1,9 @@
 package com.intelligent.util;
 
-import com.intenlligent.R;
 import android.content.Context;
 import android.media.MediaPlayer;
+
+import com.intenlligent.R;
 
 public class Utils {
 	

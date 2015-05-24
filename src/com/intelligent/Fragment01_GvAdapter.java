@@ -1,8 +1,5 @@
 package com.intelligent;
 
-import com.intenlligent.R;
-
-import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
@@ -10,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.intenlligent.R;
 
 public class Fragment01_GvAdapter extends BaseAdapter {
 

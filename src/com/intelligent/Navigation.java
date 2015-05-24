@@ -1,32 +1,20 @@
 package com.intelligent;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.BMapManager;
-import com.baidu.mapapi.MKGeneralListener;
-import com.baidu.mapapi.map.LocationData;
-import com.baidu.mapapi.map.MKEvent;
-import com.baidu.mapapi.map.MKMapTouchListener;
-import com.baidu.mapapi.map.MapController;
-import com.baidu.mapapi.map.MapView;
-import com.baidu.mapapi.map.MyLocationOverlay;
-import com.baidu.mapapi.map.PopupClickListener;
-import com.baidu.mapapi.map.PopupOverlay;
-import com.baidu.platform.comapi.basestruct.GeoPoint;
-import com.intelligent.load.DataLoadActivity;
-import com.intelligent.search.LabelSearch;
-import com.intenlligent.R;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
@@ -35,19 +23,50 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.BMapManager;
+import com.baidu.mapapi.MKGeneralListener;
+import com.baidu.mapapi.map.ItemizedOverlay;
+import com.baidu.mapapi.map.LocationData;
+import com.baidu.mapapi.map.MKEvent;
+import com.baidu.mapapi.map.MKMapTouchListener;
+import com.baidu.mapapi.map.MapController;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MyLocationOverlay;
+import com.baidu.mapapi.map.OverlayItem;
+import com.baidu.mapapi.map.PopupClickListener;
+import com.baidu.mapapi.map.PopupOverlay;
+import com.baidu.platform.comapi.basestruct.GeoPoint;
+import com.intelligent.greendao.DaoMaster;
+import com.intelligent.greendao.DaoMaster.DevOpenHelper;
+import com.intelligent.greendao.DaoSession;
+import com.intelligent.greendao.biaoqian;
+import com.intelligent.greendao.biaoqianDao;
+import com.intelligent.search.LabelSearch;
+import com.intenlligent.R;
+
+import de.greenrobot.dao.query.QueryBuilder;
+
 public class Navigation extends Activity {
 
 	private static final String TAG = "Navigation";
-	private 
-
 	// 用于截获屏坐标
 	MKMapTouchListener mapTouchListener = null;
 	private BMapManager mBMapMan = null;
 	private MapView mMapView = null;
 	public View popView;
-
+	private SQLiteDatabase db;
+	private DaoMaster daoMaster;
+	private DaoSession daoSession;
+	private biaoqianDao mbiaoqianDao;
+	private List<OverlayItem> list = new ArrayList<OverlayItem>();
+	private MyOverlay itemOverlay = null;
 	private Toast mToast;
 	boolean flag = true;
+	private GeoPoint point1;
 	/**
 	 * 定位SDK的核心类
 	 */
@@ -117,6 +136,13 @@ public class Navigation extends Activity {
 		});
 
 		mLocData = new LocationData();
+		DevOpenHelper myHelper = new DevOpenHelper(Navigation.this,
+				"intelligentDao.db", null);
+		db = myHelper.getWritableDatabase();
+		daoMaster = new DaoMaster(db);
+		daoSession = daoMaster.newSession();
+
+		mbiaoqianDao = daoSession.getBiaoqianDao();
 
 		// 实例化定位服务，LocationClient类必须在主线程中声明
 		mLocClient = new LocationClient(getApplicationContext());
@@ -157,7 +183,10 @@ public class Navigation extends Activity {
 				// TODO Auto-generated method stub
 				Builder builder = new Builder(Navigation.this);
 				builder.setTitle("标签添加");
-				builder.setMessage("是否添加地图当前位置到系统？");
+				builder.setMessage("是否添加地图当前位置到系统？\n" + "经度："
+						+ point.getLatitudeE6() + "\n" + "纬度："
+						+ point.getLongitudeE6());
+
 				builder.setNegativeButton("取消",
 						new DialogInterface.OnClickListener() {
 
@@ -173,19 +202,17 @@ public class Navigation extends Activity {
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which) {
-								// TODO Auto-generated method stub
+								Log.e(TAG, "onMapLongClick:------>>>");
+
 								Intent intent = new Intent(Navigation.this,
 										LabelSearch.class);
-								Log.e(TAG,
-										"onClick:" + "Latitude:"
-												+ point.getLatitudeE6()
-												+ "Longitude:"
-												+ point.getLongitudeE6());
 								intent.putExtra("Latitude",
 										(point.getLatitudeE6() * 1.0) / 1e6);
 								intent.putExtra("Longitude",
 										(point.getLongitudeE6() * 1.0) / 1e6);
+								intent.putExtra("from", "Navigation");
 								startActivity(intent);
+
 							}
 						});
 				builder.create().show();
@@ -203,6 +230,8 @@ public class Navigation extends Activity {
 
 			}
 		};
+		// 注册地图触碰事件
+		mMapView.regMapTouchListner(mapTouchListener);
 
 	}
 
@@ -323,6 +352,7 @@ public class Navigation extends Activity {
 		if (mLocClient != null && mLocClient.isStarted()) {
 			showToast("正在定位......");
 			mLocClient.requestLocation();
+
 		} else {
 			Log.d("LocSDK3", "locClient is null or not started");
 		}
@@ -391,6 +421,133 @@ public class Navigation extends Activity {
 		}
 
 		super.onResume();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// TODO Auto-generated method stub
+
+		menu.add(0, 0, 0, "	显示标签信息");
+		menu.add(0, 1, 1, "	关闭标签信息");
+		return super.onCreateOptionsMenu(menu);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		int id = item.getItemId();
+		if (id == 0 && flag) {
+			// display;
+			Drawable marka = this.getResources().getDrawable(
+					R.drawable.icon_geo);
+			QueryBuilder<biaoqian> qb = mbiaoqianDao.queryBuilder();
+			Log.e(TAG, "onOptionsItemSelected:::--count-->>"
+					+ qb.buildCount().count());
+			if (qb.buildCount().count() > 0) {
+				for (int i = 0; i < qb.list().size(); i++) {
+					Log.e(TAG, "onOptionsItemSelected::weidu:;"
+							+ qb.list().get(i).getWeidu());
+					Log.e(TAG, "onOptionsItemSelected::jingdu:;"
+							+ qb.list().get(i).getJingdu());
+
+					point1 = new GeoPoint(
+							(int) ((Double.valueOf(qb.list().get(i).getWeidu()) * 1E6)),
+							(int) ((Double
+									.valueOf(qb.list().get(i).getJingdu()) * 1E6)));
+					list.add(new OverlayItem(point1, qb.list().get(i)
+							.getBiaoqiancode(), qb.list().get(i)
+							.getBiaoqianleibie()));
+
+				}
+			}
+
+			list.get(0).setMarker(
+					this.getResources().getDrawable(R.drawable.icon_marka));
+			// 创建IteminizedOverlay
+			itemOverlay = new MyOverlay(marka, mMapView);
+
+			mMapView.getOverlays().clear();
+			mMapView.getOverlays().add(myLocationOverlay);
+			mMapView.getOverlays().add(itemOverlay);
+
+			// 现在所有准备工作已准备好，使用以下方法管理overlay.
+			// 添加overlay, 当批量添加Overlay时使用addItem(List<OverlayItem>)效率更高
+			itemOverlay.addItem(list);
+			// 刷新地图
+			mMapView.refresh();
+			flag = false;
+			// 删除overlay
+			// itemOverlay.removeItem(itemOverlay.getItem(0));
+			// mMapView.refresh();
+			// 清除overlay
+			// itemOverlay.removeAll();
+		} else if (id == 1) {
+			// close
+			if (flag) {
+				Toast.makeText(Navigation.this, "图层已经清除", Toast.LENGTH_SHORT)
+						.show();
+			} else {
+				// mMapView.getOverlays().clear();
+				mMapView.getOverlays().remove(itemOverlay);
+				mMapView.refresh();
+				flag = true;
+			}
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	final public class MyOverlay extends ItemizedOverlay<OverlayItem> {
+
+		public MyOverlay(Drawable marka, MapView mMapView) {
+			super(marka, mMapView);
+
+		}
+
+		protected boolean onTap(int index) {
+			// 此处处理item点击事件
+			Log.e(TAG, "onTap" + index);
+			String title = list.get(index).getTitle();
+			String message = list.get(index).getSnippet();
+			String Detail = "纬度："
+					+ (double) (list.get(index).getPoint().getLatitudeE6())
+					/ 1E6 + "\n经度："
+					+ (double) (list.get(index).getPoint().getLongitudeE6())
+					/ 1E6 + "\n" + message;
+			Builder builder = new Builder(Navigation.this);
+			builder.setTitle(title);
+			builder.setMessage(Detail);
+			builder.setPositiveButton("关闭",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+							// cursor.requery();
+						}
+					});
+			builder.setNegativeButton("取消",
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface arg0, int arg1) {
+
+						}
+					});
+			builder.create().show();
+			return true;
+		}
+
+		@Override
+		public int size() {
+			return super.size();
+		}
+
+		public boolean onTap(GeoPoint pt, MapView mapView) {
+			// 在此处处理MapView的点击事件，当返回true时；
+			super.onTap(pt, mapView);
+			return false;
+		}
+
 	}
 
 }

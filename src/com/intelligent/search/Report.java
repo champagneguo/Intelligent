@@ -8,19 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-import com.intelligent.MenuActivity;
-import com.intelligent.greendao.DaoMaster;
-import com.intelligent.greendao.DaoSession;
-import com.intelligent.greendao.dianli;
-import com.intelligent.greendao.dianliDao;
-import com.intelligent.greendao.guandian;
-import com.intelligent.greendao.guandianDao;
-import com.intelligent.greendao.guzhangshenbao;
-import com.intelligent.greendao.guzhangshenbaoDao;
-import com.intelligent.greendao.DaoMaster.DevOpenHelper;
-import com.intelligent.util.Global;
-import com.intenlligent.R;
-import de.greenrobot.dao.query.QueryBuilder;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
@@ -34,15 +22,28 @@ import android.provider.MediaStore;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.RadioGroup.OnCheckedChangeListener;
+
+import com.intelligent.MenuActivity;
+import com.intelligent.greendao.DaoMaster;
+import com.intelligent.greendao.DaoMaster.DevOpenHelper;
+import com.intelligent.greendao.DaoSession;
+import com.intelligent.greendao.dianli;
+import com.intelligent.greendao.dianliDao;
+import com.intelligent.greendao.guzhangshenbao;
+import com.intelligent.greendao.guzhangshenbaoDao;
+import com.intelligent.util.Global;
+import com.intenlligent.R;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 public class Report extends Activity {
 

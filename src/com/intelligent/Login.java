@@ -1,13 +1,5 @@
 package com.intelligent;
 
-import com.intelligent.greendao.DaoMaster;
-import com.intelligent.greendao.DaoMaster.DevOpenHelper;
-import com.intelligent.greendao.DaoSession;
-import com.intelligent.greendao.user;
-import com.intelligent.greendao.userDao;
-import com.intelligent.util.Global;
-import com.intenlligent.R;
-import de.greenrobot.dao.query.QueryBuilder;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +15,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.intelligent.greendao.DaoMaster;
+import com.intelligent.greendao.DaoMaster.DevOpenHelper;
+import com.intelligent.greendao.DaoSession;
+import com.intelligent.greendao.user;
+import com.intelligent.greendao.userDao;
+import com.intelligent.util.Global;
+import com.intenlligent.R;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 public class Login extends Activity implements OnClickListener {
 

@@ -1,12 +1,5 @@
 package com.intelligent.search;
 
-import com.example.nfc.util.Consts;
-import com.intelligent.load.DataCheckActivity;
-import com.intelligent.load.DataLoadActivity;
-import com.intelligent.service.NFCService;
-import com.intelligent.util.IDentity;
-import com.intelligent.util.Utils;
-import com.intenlligent.R;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,6 +13,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.nfc.util.Consts;
+import com.intelligent.load.DataCheckActivity;
+import com.intelligent.load.DataLoadActivity;
+import com.intelligent.service.NFCService;
+import com.intelligent.util.IDentity;
+import com.intelligent.util.Utils;
+import com.intenlligent.R;
+
 public class LabelSearch extends Activity {
 	private ImageView image;
 	private Button search, start, load, inspection, report;
@@ -30,6 +31,8 @@ public class LabelSearch extends Activity {
 	private String TAG = "LabelSearch";
 	private int cmdCode = 0;
 	private String Uid = null;
+	private Double Latitude = -1d, Longitude = -1d;
+	private String from = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,9 @@ public class LabelSearch extends Activity {
 		image.setImageResource(R.drawable.circle);
 		Log.e("5======", "image");
 		anim = (AnimationDrawable) image.getDrawable();
+		Latitude = this.getIntent().getDoubleExtra("Latitude", -1d);
+		Longitude = this.getIntent().getDoubleExtra("Longitude", -1d);
+		from = this.getIntent().getStringExtra("from");
 
 		// 初始化本地音乐资源文件
 		// mplayer = MediaPlayer.create(LabelSearch.this, R.raw.thunder);
@@ -97,8 +103,15 @@ public class LabelSearch extends Activity {
 				Intent intent = new Intent(LabelSearch.this,
 						DataCheckActivity.class);
 				intent.putExtra("UID", Uid);
+				intent.putExtra("Latitude", Latitude);
+				intent.putExtra("Longitude", Longitude);
+				intent.putExtra("from", from);
+
 				Log.e(TAG, "R.id.labelsearch_start==" + Uid);
 				startActivity(intent);
+				if ("Navigation".equals(from)) {
+					finish();
+				}
 				flag = false;
 				setButtonClickable(flag);
 				break;
@@ -111,10 +124,16 @@ public class LabelSearch extends Activity {
 				Intent intent1 = new Intent(LabelSearch.this,
 						DataLoadActivity.class);
 				intent1.putExtra("UID", Uid);
+				intent1.putExtra("Latitude", Latitude);
+				intent1.putExtra("Longitude", Longitude);
+				intent1.putExtra("from", from);
 				Log.e(TAG, "R.id.labelsearch_load==" + Uid);
 				startActivity(intent1);
 				flag = false;
 				setButtonClickable(flag);
+				if ("Navigation".equals(from)) {
+					finish();
+				}
 				break;
 			case R.id.labelsearch_inspection:
 				Log.e(TAG, "labelsearch_inspection");
@@ -124,10 +143,16 @@ public class LabelSearch extends Activity {
 				startService(cmdIntent);
 				Intent intent2 = new Intent(LabelSearch.this, Inspection.class);
 				intent2.putExtra("UID", Uid);
+				intent2.putExtra("Latitude", Latitude);
+				intent2.putExtra("Longitude", Longitude);
+				intent2.putExtra("from", from);
 				Log.e(TAG, "R.id.labelsearch_inspection==" + Uid);
 				startActivity(intent2);
 				flag = false;
 				setButtonClickable(flag);
+				if ("Navigation".equals(from)) {
+					finish();
+				}
 				break;
 			case R.id.labelsearch_report:
 				Log.e(TAG, "labelsearch_report");
@@ -137,10 +162,16 @@ public class LabelSearch extends Activity {
 				startService(cmdIntent);
 				Intent intent3 = new Intent(LabelSearch.this, Report.class);
 				intent3.putExtra("UID", Uid);
+				intent3.putExtra("Latitude", Latitude);
+				intent3.putExtra("Longitude", Longitude);
+				intent3.putExtra("from", from);
 				Log.e(TAG, "R.id.labelsearch_report==" + Uid);
 				startActivity(intent3);
 				flag = false;
 				setButtonClickable(flag);
+				if ("Navigation".equals(from)) {
+					finish();
+				}
 				break;
 
 			default:
@@ -218,4 +249,5 @@ public class LabelSearch extends Activity {
 			}
 		}
 	}
+
 }
